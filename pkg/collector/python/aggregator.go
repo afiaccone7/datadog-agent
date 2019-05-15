@@ -77,7 +77,9 @@ func SubmitServiceCheck(checkID *C.char, scName *C.char, status C.int, tags **C.
 
 func eventParseString(value *C.char, fieldName string) string {
 	if value == nil {
-		log.Errorf("Can't parse value for key '%s' in event submitted from python check", fieldName)
+		if fieldName != "host" {
+			log.Errorf("Can't parse value for key '%s' in event submitted from python check", fieldName)
+		}
 		return ""
 	}
 	return C.GoString(value)
